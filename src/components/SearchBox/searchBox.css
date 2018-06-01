@@ -1,0 +1,30 @@
+.searchInput {
+  color: white;
+  font-size: 15px;
+  padding: 10px 0px 10px 40px;
+  width: 150px;
+  background: rgba(255, 255, 255, 0.15) url(icon.png) no-repeat scroll 10px 10px;
+  background-size: 20px;
+  border-radius: 5px;
+  border: none;
+  text-align: justify;
+  direction: ltr;
+}
+
+.searchInput:focus {
+  width: 200px;
+  outline: none;
+}
+
+.searchInput {
+  -webkit-transition: all 0.7s ease 0s;
+  -moz-transition: all 0.7s ease 0s;
+  -o-transition: all 0.7s ease 0s;
+  transition: all 0.7s ease 0s;
+}
+
+.searchInput:hover {
+  background: rgba(255, 255, 255, 0.25) url(icon.png) no-repeat scroll 10px 10px;
+  background-size: 20px;
+  padding-left: 40px;
+}

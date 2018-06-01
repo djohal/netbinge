@@ -1,0 +1,18 @@
+#card {
+  height: 400px;
+  max-width: 400px;
+  cursor: pointer;
+}
+
+#card:hover {
+  background-color: rgba(0, 0, 0, 0.1)
+}
+
+.media {
+  padding-top: 56.25%;
+}
+
+.cardDiv {
+  display: inline-block;
+  margin: 40px 20px 0px 20px;
+}
