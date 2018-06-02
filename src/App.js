@@ -1,7 +1,11 @@
 import React, { Component } from 'react';
+import {bindActionCreators} from 'redux';
+import { connect } from 'react-redux';
 import NavBar from './components/NavBar/navBar';
 import CardList from './components/CardList/cardList';
 import Footer from './components/Footer/footer';
+import * as movieActions  from './actions/movieActions';
+import * as searchActions  from './actions/searchActions';
 
 class App extends Component {
   constructor() {
@@ -12,15 +16,22 @@ class App extends Component {
       moviesTypeData: ''
     }
   }
-
+  
   componentDidMount() {
-    fetch('https://api.themoviedb.org/3/movie/now_playing?api_key=d4fbc0cd7f3b6b7ea3c3b8e5c74b8f46')
-      .then(response=> response.json())
-      .then(movies => {this.setState({ movies: movies.results})});
+    this.props.movieActions.requestMovies('now_playing');
+  }
+
+  componentWillReceiveProps(props, nextProps) {
+    if(props.moviesList && props.moviesList.length) {
+      this.setState({movies: props.moviesList})
+    }
+    if(props.searchField && props.searchField !== '') {
+      this.setState({ searchField: props.searchField })
+    }
   }
 
   onSearchChange = (event) => {
-    this.setState({ searchField: event.target.value })
+    this.props.searchActions.searchChange(event.target.value);
   }
 
   getMovieTypeData = (data) => {
@@ -37,7 +48,7 @@ class App extends Component {
   render() {
     const { movies, searchField, moviesTypeData } = this.state;
     let filteredMovies;
-
+    
     if(moviesTypeData.length) {
       if(searchField.length) {
         filteredMovies = this.filterMovies(moviesTypeData, searchField);
@@ -50,7 +61,7 @@ class App extends Component {
 
     return (
       <div>
-        <NavBar searchChange={this.onSearchChange} moviesTypeData={this.getMovieTypeData}/>
+        <NavBar searchChange={this.onSearchChange} moviesTypeData={this.getMovieTypeData}/>,
         <CardList movies={filteredMovies} />
         <Footer />
       </div>
@@ -58,4 +69,18 @@ class App extends Component {
   }
 }
 
-export default App;
+function mapStateToProps(state) {  
+  return {
+    moviesList: state.movies.moviesList,
+    searchField: state.search.searchField
+  }
+}
+
+function mapDispatchToProps(dispatch) {
+  return {
+    movieActions: bindActionCreators(movieActions, dispatch),
+    searchActions: bindActionCreators(searchActions, dispatch)
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(App);
