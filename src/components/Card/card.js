@@ -11,12 +11,9 @@ function trunc (string, n) {
   return (string.length > n) ? string.substr(0, n-1) + ' ...' : string;
 };
 
-class MovieCard extends React.Component  { 
-
-  render() {
-    let { id, title, overview, image, date } = this.props;
-    image = `https://image.tmdb.org/t/p/w500${image}`;
-    overview = trunc(overview, 150);
+const MovieCard = ({ id, title, overview, image, date }) =>  { 
+  image = `https://image.tmdb.org/t/p/w500${image}`;
+  overview = trunc(overview, 150);
 
     return (
       <div className='cardDiv'>
@@ -45,6 +42,5 @@ class MovieCard extends React.Component  {
       </div>
     );
   }
-}
 
 export default MovieCard;

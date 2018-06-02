@@ -13,7 +13,6 @@ class App extends Component {
     this.state = {
       movies: [],
       searchField: '',
-      moviesTypeData: ''
     }
   }
   
@@ -34,8 +33,8 @@ class App extends Component {
     this.props.searchActions.searchChange(event.target.value);
   }
 
-  getMovieTypeData = (data) => {
-    this.setState({moviesTypeData: data});
+  onListClick = (list) => {
+    this.props.movieActions.requestMovies(list);
   }
 
   filterMovies = (movies, searchField) => {
@@ -46,22 +45,16 @@ class App extends Component {
   }
 
   render() {
-    const { movies, searchField, moviesTypeData } = this.state;
+    const { movies, searchField } = this.state;
     let filteredMovies;
     
-    if(moviesTypeData.length) {
-      if(searchField.length) {
-        filteredMovies = this.filterMovies(moviesTypeData, searchField);
-      } else {
-        filteredMovies = moviesTypeData;
-      }
-    } else {
-      filteredMovies = this.filterMovies(movies, searchField);
-    }
+    searchField.length
+      ? filteredMovies = this.filterMovies(movies, searchField)
+      : filteredMovies = movies;
 
     return (
       <div>
-        <NavBar searchChange={this.onSearchChange} moviesTypeData={this.getMovieTypeData}/>,
+        <NavBar searchChange={this.onSearchChange} onListClick={this.onListClick}/>,
         <CardList movies={filteredMovies} />
         <Footer />
       </div>
