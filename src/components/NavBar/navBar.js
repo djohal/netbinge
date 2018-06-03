@@ -1,13 +1,18 @@
 import React from 'react';
+import {bindActionCreators} from 'redux';
+import { connect } from 'react-redux';
+import { withStyles } from '@material-ui/core/styles';
+
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 import Drawer from '@material-ui/core/Drawer';
 import Divider from '@material-ui/core/Divider';
-import { withStyles } from '@material-ui/core/styles';
-import SearchBox from '../SearchBox/searchBox';
 
+import * as movieActions  from '../../actions/movieActions';
+import * as searchActions  from '../../actions/searchActions';
+import SearchBox from '../SearchBox/searchBox';
 import './navBar.css';
 
 const styles = theme => ({
@@ -39,17 +44,25 @@ class NavBar extends React.Component {
     });
   };
 
+  onSearchChange = (event) => {
+    this.props.searchActions.searchChange(event.target.value);
+  }
+
+  onListClick = (list) => {
+    this.props.movieActions.requestMovies(list);
+  }
+
   render() {
-    const { classes, searchChange, onListClick } = this.props;
+    const { classes } = this.props;
 
     const sideList = (
       <div className={classes.list}>
         <h2 className="tileHeader">NetBinge Movies</h2>
         <Divider className={classes.divider}/>
-        <p className="listButton" onClick={() => {onListClick('now_playing')}}> Now Playing </p>
-        <p className="listButton" onClick={() => {onListClick('popular')}}> Popular </p>
-        <p className="listButton" onClick={() => {onListClick('top_rated')}}> Top Rated </p>
-        <p className="listButton" onClick={() => {onListClick('upcoming')}}> Upcoming </p>
+        <p className="listButton" onClick={() => {this.onListClick('now_playing')}}> Now Playing </p>
+        <p className="listButton" onClick={() => {this.onListClick('popular')}}> Popular </p>
+        <p className="listButton" onClick={() => {this.onListClick('top_rated')}}> Top Rated </p>
+        <p className="listButton" onClick={() => {this.onListClick('upcoming')}}> Upcoming </p>
       </div>
     );
 
@@ -71,7 +84,7 @@ class NavBar extends React.Component {
               </div>
             </Drawer>
             <h1 className='flex'>NetBinge</h1>
-              <SearchBox searchChange={searchChange}/>
+              <SearchBox searchChange={this.onSearchChange}/>
           </Toolbar>
         </AppBar>
       </div>
@@ -79,4 +92,18 @@ class NavBar extends React.Component {
   }
 }
 
-export default withStyles(styles)(NavBar);
+function mapStateToProps(state) {  
+  return {
+    moviesList: state.movies.moviesList,
+    searchField: state.search.searchField
+  }
+}
+
+function mapDispatchToProps(dispatch) {
+  return {
+    movieActions: bindActionCreators(movieActions, dispatch),
+    searchActions: bindActionCreators(searchActions, dispatch)
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(NavBar));
