@@ -1,27 +1,52 @@
 import React from 'react';
+import {bindActionCreators} from 'redux';
+import { connect } from 'react-redux';
 import Card from '@material-ui/core/Card';
 import CardHeader from '@material-ui/core/CardHeader';
 import CardMedia from '@material-ui/core/CardMedia';
 import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
 import Modal from '../Modal/modal';
+import * as movieActions  from '../../actions/movieActions';
 import './card.css'
 
 function trunc (string, n) {
   return (string.length > n) ? string.substr(0, n-1) + ' ...' : string;
 };
 
-const MovieCard = ({ id, title, overview, image, date }) =>  { 
-  image = `https://image.tmdb.org/t/p/w500${image}`;
-  overview = trunc(overview, 150);
+class MovieCard extends React.Component { 
+  state = {
+    open: false,
+    cardId: '',
+    movieVid: ''
+  };
 
+  handleOpen = () => {
+    this.setState({open: true});
+  };
+
+  handleClose = () => {
+    this.setState({open: false});
+  };
+
+  getCardId = (id) => {
+    this.setState({cardId: id});
+  }
+
+  getVidLink = (id) => {
+    this.props.movieActions.requestMovieVideos(id);
+  }
+
+  render() {
+    let { id, title, overview, image, date } = this.props;
+    image = `https://image.tmdb.org/t/p/w500${image}`;
+    overview = trunc(overview, 150);
     return (
       <div className='cardDiv'>
-        <Modal ref={instance => { this.child = instance; }} />
         <Card id="card" onClick={() => {
-          this.child.getCardId(id);
-          this.child.getVidLink(id);
-          this.child.handleOpen();
+          this.getCardId(id);
+          this.getVidLink(id);
+          this.handleOpen();
         }}>
           <CardHeader
             title={title}
@@ -38,9 +63,27 @@ const MovieCard = ({ id, title, overview, image, date }) =>  {
             </Typography>
           </CardContent>
         </Card>
-        <Modal/>
+        {          
+          this.props.movieVid !== ''
+            ? <Modal movieVid={this.props.movieVid} open={this.state.open} close={this.handleClose}/>
+            : null
+        }
       </div>
     );
   }
+}
 
-export default MovieCard;
+function mapStateToProps(state) {  
+  return {
+    movieVid: state.movies.movieVid,
+  }
+}
+
+function mapDispatchToProps(dispatch) {
+  return {
+    movieActions: bindActionCreators(movieActions, dispatch),
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(MovieCard);
+

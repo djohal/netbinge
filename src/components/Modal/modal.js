@@ -4,59 +4,55 @@ import ReactPlayer from 'react-player/lib/players/YouTube'
 import DialogContent from '@material-ui/core/DialogContent';
 import './modal.css'
 
-export default class Modal extends React.Component {
-  state = {
-    open: false,
-    cardId: '',
-    cardVidLink: ''
-  };
-
-  handleOpen = () => {
-    this.setState({open: true});
-  };
-
-  handleClose = () => {
-    this.setState({open: false});
-  };
-
-  getCardId = (id) => {
-    this.setState({cardId: id});
+class Modal extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      movieVid: '',
+    }
   }
 
-  getVidLink = (id) => {
-    fetch(`https://api.themoviedb.org/3/movie/${id}/videos?api_key=d4fbc0cd7f3b6b7ea3c3b8e5c74b8f46`)
-      .then(response=> response.json())
-      .then(res => {
-        let youTubeLink = `https://www.youtube.com/watch?v=`;
-        let trailer = res.results.filter(video => {
-          return video.type.includes('Trailer');
-        });
-                
-        this.setState({ cardVidLink: youTubeLink + trailer[0].key})
-      });
+  componentDidMount(){
+    this.setState({movieVid: this.props.movieVid});
+  }
+
+  componentWillReceiveProps(nextProps) {    
+    if(this.props.movieVid !== '' && this.props.movieVid !== nextProps.movieVid) {
+      this.setState({movieVid: nextProps.movieVid});
+    }
   }
 
   render() {
+    const {open, close, movieVid} = this.props;
     return (
       <div>
         <Dialog
           modal="true"
-          open={this.state.open}
-          onClose={this.handleClose}
+          open={open}
+          onClose={close}
           autoscrollbodycontent="true"
           maxWidth="md"
         >
           <DialogContent > 
-            <div id='player'>
-              <ReactPlayer 
-                url={this.state.cardVidLink} 
-                playing={false} 
-                controls={true}
-              />
-            </div>
+            {
+              this.state.movieVid !== '' && this.state.movieVid === movieVid
+              ? (
+                <div id='player'>
+                    <ReactPlayer 
+                      url={this.state.movieVid} 
+                      playing={false} 
+                      controls={true}
+                    />
+                  </div>
+                  
+                )
+              : <h1>Loading..</h1>
+            }
           </DialogContent>
         </Dialog>
       </div>
     );
   }
 }
+
+export default Modal;

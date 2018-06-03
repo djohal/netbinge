@@ -19,3 +19,27 @@ export function requestMovies(movieType) {
       });
   }
 };
+
+export function requestMovieVideosSuccess(video) {
+  return {
+    type: types.REQUEST_MOVIE_VIDEOS_SUCCESS,
+    video
+  };
+}
+
+export function requestMovieVideos(id) {
+  return function(dispatch) {
+    return fetch(`https://api.themoviedb.org/3/movie/${id}/videos?api_key=d4fbc0cd7f3b6b7ea3c3b8e5c74b8f46`)
+      .then(response => response.json())
+      .then(res => {
+        let youTubeLink = `https://www.youtube.com/watch?v=`;
+        let trailer = res.results.filter(video => {
+          return video.type.includes('Trailer');
+        });
+        dispatch(requestMovieVideosSuccess(youTubeLink + trailer[0].key));
+      })
+      .catch(error => {
+        throw (error);
+      });
+  }
+};
