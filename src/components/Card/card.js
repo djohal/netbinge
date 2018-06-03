@@ -1,12 +1,12 @@
 import React from 'react';
 import {bindActionCreators} from 'redux';
 import { connect } from 'react-redux';
+import { withRouter } from 'react-router';
 import Card from '@material-ui/core/Card';
 import CardHeader from '@material-ui/core/CardHeader';
 import CardMedia from '@material-ui/core/CardMedia';
 import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
-import Modal from '../Modal/modal';
 import * as movieActions  from '../../actions/movieActions';
 import './card.css'
 
@@ -16,25 +16,11 @@ function trunc (string, n) {
 
 class MovieCard extends React.Component { 
   state = {
-    open: false,
     cardId: '',
-    movieVid: ''
-  };
-
-  handleOpen = () => {
-    this.setState({open: true});
-  };
-
-  handleClose = () => {
-    this.setState({open: false});
   };
 
   getCardId = (id) => {
     this.setState({cardId: id});
-  }
-
-  getVidLink = (id) => {
-    this.props.movieActions.requestMovieVideos(id);
   }
 
   render() {
@@ -45,8 +31,7 @@ class MovieCard extends React.Component {
       <div className='cardDiv'>
         <Card id="card" onClick={() => {
           this.getCardId(id);
-          this.getVidLink(id);
-          this.handleOpen();
+          this.props.history.push(`/movie/${id}`)
         }}>
           <CardHeader
             title={title}
@@ -63,11 +48,6 @@ class MovieCard extends React.Component {
             </Typography>
           </CardContent>
         </Card>
-        {          
-          this.props.movieVid !== ''
-            ? <Modal movieVid={this.props.movieVid} open={this.state.open} close={this.handleClose}/>
-            : null
-        }
       </div>
     );
   }
@@ -85,5 +65,5 @@ function mapDispatchToProps(dispatch) {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(MovieCard);
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(MovieCard));
 
