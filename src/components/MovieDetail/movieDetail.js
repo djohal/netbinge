@@ -6,6 +6,12 @@ import Paper from '@material-ui/core/Paper';
 import * as movieActions from '../../actions/movieActions';
 import { withStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
+import GenreIcon from '@material-ui/icons/LocalOffer';
+import ReleaseDate from '@material-ui/icons/DateRange';
+import RunTime from '@material-ui/icons/AccessTime';
+import Countries from '@material-ui/icons/Public';
+import Budget from '@material-ui/icons/AttachMoney';
+import Cast from '@material-ui/icons/People';
 import './movieDetail.css'
 
 const styles = theme => ({
@@ -76,40 +82,52 @@ class MovieDetail extends React.Component {
                 Details
               </Typography>
               <Typography component="p">
-                <b>Genres: </b>
-                {
-                  genres.map((genre, i) => (
-                    <span className='badge' key={i}> {genre.name}</span>
-                  ))
-                }
+                <div className='details-row'>
+                  <GenreIcon />
+                  {
+                    genres.map((genre, i) => (
+                      <span className='badge' key={i}> {genre.name}</span>
+                    ))
+                  }
+                </div>
               </Typography>
               <Typography component="p">
-                <b>Release Date: </b>
-                {movieDetails.release_date}
+                <div className='details-row'>
+                  <ReleaseDate />
+                  {movieDetails.release_date}
+                </div>
               </Typography>
               <Typography component="p">
-                <b>Run Time: </b>
-                {movieDetails.runtime} mins
+                <div className='details-row'>
+                  <RunTime />
+                  {movieDetails.runtime} mins
+                </div>
               </Typography>
               <Typography component="p">
-                <b>Countries: </b>
-                {
-                  movieDetails.production_countries.map((country, i) => (
-                    <span className='badge blackBadge' key={i}> {country.iso_3166_1} </span>
-                  ))
-                }
+                <div className='details-row'>
+                  <Countries />
+                  {
+                    movieDetails.production_countries.map((country, i) => (
+                      <span className='badge blackBadge' key={i}> {country.iso_3166_1} </span>
+                    ))
+                  }
+                </div>
               </Typography>
               <Typography component="p">
-                <b>Budget: </b>
+                <div className='details-row'>
+                  <Budget />
                   $ {(movieDetails.budget).toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, '$1,')}
+                </div>
               </Typography>
               <Typography component="p">
-                <b>Cast: </b>
-                {
-                  movieCast.map((credits, i) => (
-                    credits.name + ', '
-                  ))
-                }
+                <div className='details-row'>
+                  <Cast />
+                  {
+                    movieCast.map((credits, i) => (
+                      credits.name + ', '
+                    ))
+                  }
+                </div>
               </Typography>
               </Paper>
             </Grid>

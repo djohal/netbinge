@@ -64,3 +64,13 @@
 #trailer:hover {
   background-color: rgb(120, 120, 120);
 }
+
+.details-row {
+  display: flex;
+  align-items: center;
+}
+
+.details-row svg {
+  margin-right: 5px;
+  font-size: 20px;
+}
