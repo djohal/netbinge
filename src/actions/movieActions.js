@@ -56,7 +56,27 @@ export function requestMovieDetails(id) {
     return fetch(`https://api.themoviedb.org/3/movie/${id}?api_key=d4fbc0cd7f3b6b7ea3c3b8e5c74b8f46`)
       .then(response => response.json())
       .then(res => {
-        dispatch(requestMovieDetailsSuccess(res.results));
+        dispatch(requestMovieDetailsSuccess(res));
+      })
+      .catch(error => {
+        throw (error);
+      });
+  }
+};
+
+export function requestMovieCreditsSuccess(credits) {
+  return {
+    type: types.REQUEST_MOVIE_CREDITS_SUCCESS,
+    credits
+  };
+}
+
+export function requestMovieCredits(id) {
+  return function(dispatch) {
+    return fetch(`https://api.themoviedb.org/3/movie/${id}/credits?api_key=d4fbc0cd7f3b6b7ea3c3b8e5c74b8f46`)
+      .then(response => response.json())
+      .then(res => {
+        dispatch(requestMovieCreditsSuccess(res));
       })
       .catch(error => {
         throw (error);

@@ -1,5 +1,8 @@
 export default {
   moviesList: [],
   movieVid: '',
-  searchField: ''
+  movieDetails: {},
+  movieCredits: [],
+  searchField: '',
+
 }

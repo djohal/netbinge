@@ -1,4 +1,5 @@
 import React from 'react';
+import { withRouter } from "react-router-dom";
 import {bindActionCreators} from 'redux';
 import { connect } from 'react-redux';
 import Card from '@material-ui/core/Card';
@@ -39,7 +40,7 @@ class MovieCard extends React.Component {
   }
 
   render() {
-    let { id, title, overview, image, date } = this.props;
+    let { id, title, overview, image, date, history } = this.props;
     image = `https://image.tmdb.org/t/p/w500${image}`;
     overview = trunc(overview, 150);
     return (
@@ -57,7 +58,9 @@ class MovieCard extends React.Component {
               this.handleOpen();
             }}> WATCH TRAILER </span>
           </div>
-          <div className="details">
+          <div className="details" onClick={() => {
+              history.push(`/movie/${id}`)
+            }}>
             <span className='button-span'> MORE DETAILS </span>
           </div>
           <CardMedia
@@ -93,4 +96,4 @@ function mapDispatchToProps(dispatch) {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(MovieCard);
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(MovieCard));

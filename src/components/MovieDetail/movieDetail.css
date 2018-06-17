@@ -1,0 +1,66 @@
+#movieDetail-wrapper {
+  margin-top: 20px;
+  padding: 0px 20px;
+}
+
+#movieDetail-wrapper::after {
+  opacity: 0.5;
+}
+
+#poster {
+  min-width: 342px;
+  width: 100%;
+}
+
+@media only screen and (max-width:1100px) {
+  #poster {
+    /* min-width: 342px; */
+    width: 100%;
+    text-align: center
+  }
+
+}
+
+#player {
+  width: 100% !important;
+  max-height: 100% !important;
+}
+
+.badge {
+  color: #fff;
+  background-color: #e74c3c;
+  display: inline-block;
+  margin: 0px 2px;
+  padding: 3px 5px;
+  font-size: 85%;
+  font-weight: 600;
+  line-height: 1.1;
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: middle;
+  border-radius: .25rem;
+}
+
+.blackBadge {
+  background-color: #000000;
+}
+
+.tealBadge {
+  background-color: #00607d;
+}
+
+.alignMiddle {
+  height: 100%;
+  vertical-align: middle;
+  display: inline-block;
+}
+
+#trailer {
+  background-color: black;
+  color: white;
+  border-radius: .25rem;
+}
+
+#trailer:hover {
+  background-color: rgb(120, 120, 120);
+}

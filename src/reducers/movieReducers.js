@@ -9,6 +9,12 @@ export default function movieReducer(state = initialState, action = {}) {
     case types.REQUEST_MOVIE_VIDEOS_SUCCESS:
       return {...state, movieVid: action.video}
 
+    case types.REQUEST_MOVIE_DETAILS_SUCCESS:
+      return {...state, movieDetails: action.details}
+
+    case types.REQUEST_MOVIE_CREDITS_SUCCESS:
+      return {...state, movieCredits: action.credits}
+
     default:
       return state;
   }
