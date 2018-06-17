@@ -44,15 +44,22 @@ class MovieCard extends React.Component {
     overview = trunc(overview, 150);
     return (
       <div className='cardDiv'>
-        <Card id="card" onClick={() => {
-          this.getCardId(id);
-          this.getVidLink(id);
-          this.handleOpen();
-        }}>
+        <Card id="card">
           <CardHeader
             title={title}
             subheader={date}
           />
+          <div className="overlay"></div>
+          <div className="trailer">
+            <span className='button-span' onClick={() => {
+              this.getCardId(id);
+              this.getVidLink(id);
+              this.handleOpen();
+            }}> WATCH TRAILER </span>
+          </div>
+          <div className="details">
+            <span className='button-span'> MORE DETAILS </span>
+          </div>
           <CardMedia
             className='media'
             image={image}

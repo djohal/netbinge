@@ -1,7 +1,7 @@
 #card {
+  position: relative;
   height: 400px;
   max-width: 400px;
-  cursor: pointer;
 }
 
 #card:hover {
@@ -15,4 +15,60 @@
 .cardDiv {
   display: inline-block;
   margin: 40px 20px 0px 20px;
+}
+
+.overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0);
+  transition: background 0.5s ease;
+}
+
+.cardDiv:hover .overlay {
+  display: block;
+  background: rgba(0, 0, 0, .6);
+}
+
+.trailer {
+  display: flex;
+  justify-content: center;
+  position: absolute;
+  width: 100%;
+  left:0;
+  top: 130px;
+  opacity: 0;
+  transition: opacity .35s ease;
+}
+
+.details {
+  display: flex;
+  justify-content: center;
+  position: absolute;
+  width: 100%;
+  left:0;
+  top: 220px;
+  opacity: 0;
+  transition: opacity .35s ease;
+}
+
+.button-span {
+  width: 200px;
+  padding: 12px 0px;
+  text-align: center;
+  color: white;
+  border: solid 2px white;
+  border-radius: 5px ;
+  z-index: 1;
+  cursor: pointer;
+}
+
+.cardDiv:hover .trailer {
+  opacity: 1;
+}
+
+.cardDiv:hover .details {
+  opacity: 1;
 }
