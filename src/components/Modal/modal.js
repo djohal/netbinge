@@ -24,6 +24,8 @@ class Modal extends React.Component {
 
   render() {
     const {open, close, movieVid} = this.props;
+    // console.log(movieVid);
+    
     return (
       <div>
         <Dialog

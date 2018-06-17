@@ -43,3 +43,23 @@ export function requestMovieVideos(id) {
       });
   }
 };
+
+export function requestMovieDetailsSuccess(details) {
+  return {
+    type: types.REQUEST_MOVIE_DETAILS_SUCCESS,
+    details
+  };
+}
+
+export function requestMovieDetails(id) {
+  return function(dispatch) {
+    return fetch(`https://api.themoviedb.org/3/movie/${id}?api_key=d4fbc0cd7f3b6b7ea3c3b8e5c74b8f46`)
+      .then(response => response.json())
+      .then(res => {
+        dispatch(requestMovieDetailsSuccess(res.results));
+      })
+      .catch(error => {
+        throw (error);
+      });
+  }
+};
